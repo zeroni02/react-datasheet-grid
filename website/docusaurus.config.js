@@ -94,6 +94,11 @@ module.exports = {
               to: 'https://tggl.io',
               rel: '',
             },
+            {
+              label: 'RabbitGUI: RabbitMQ IDE',
+              to: 'https://rabbitgui.com/',
+              rel: '',
+            },
           ],
         },
       ],
