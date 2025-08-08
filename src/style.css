@@ -523,6 +523,12 @@
 .dsg-input-align-right {
   text-align: right;
 }
+.dsg-input-active {
+  caret-color: transparent 
+}
+.dsg-input-active::selection {
+  background-color: transparent
+}
 
 .dsg-hide-date-picker[type="date"]::-webkit-inner-spin-button,
 .dsg-hide-date-picker[type="date"]::-webkit-calendar-picker-indicator {

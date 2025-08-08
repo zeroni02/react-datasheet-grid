@@ -50,6 +50,9 @@ const TextComponent = React.memo<
   }) => {
     const ref = useRef<HTMLInputElement>(null)
     const firstRender = useFirstRender()
+    const onlyActive = React.useMemo(() => {
+      return active && !focus;
+    }, [active, focus])
 
     // We create refs for async access so we don't have to add it to the useEffect dependencies
     const asyncRef = useRef({
@@ -82,24 +85,38 @@ const TextComponent = React.memo<
       escPressed: asyncRef.current.escPressed,
     }
 
+
+    /**
+     * Cellの状態に応じて、Activeになった時、
+     */
     useLayoutEffect(() => {
-      // When the cell gains focus we make sure to immediately select the text in the input:
+        // When the cell gains focus we make sure to immediately select the text in the input:
       // - If the user gains focus by typing, it will replace the existing text, as expected
       // - If the user gains focus by clicking or pressing Enter, the text will be preserved and selected
       if (focus) {
-        if (ref.current) {
+        const focusedInput = ref.current
+        if (focusedInput) {
+          
           // Make sure to first format the input
-          ref.current.value = asyncRef.current.formatInputOnFocus(
+          focusedInput.value = asyncRef.current.formatInputOnFocus(
             asyncRef.current.rowData
           )
-          ref.current.focus()
-          ref.current.select()
+          focusedInput.focus()
+          const length = focusedInput.value.length
+          focusedInput.setSelectionRange(length, length);          
         }
-
         // We immediately reset the escPressed
         asyncRef.current.escPressed = false
         // Save current timestamp
         asyncRef.current.focusedAt = Date.now()
+      } else if (onlyActive) {
+        // If the cell is active but not focused, we format the input for display
+        if (ref.current) {
+          ref.current.value = asyncRef.current.formatBlurredInput(
+            asyncRef.current.rowData
+          )
+          ref.current.focus()
+        }
       }
       // When the cell looses focus (by pressing Esc, Enter, clicking away...) we make sure to blur the input
       // Otherwise the user would still see the cursor blinking
@@ -120,7 +137,9 @@ const TextComponent = React.memo<
           ref.current.blur()
         }
       }
-    }, [focus])
+
+    
+    }, [active, focus, onlyActive])
 
     useEffect(() => {
       if (!focus && ref.current) {
@@ -133,7 +152,7 @@ const TextComponent = React.memo<
       <input
         // We use an uncontrolled component for better performance
         defaultValue={formatBlurredInput(rowData)}
-        className={cx('dsg-input', alignRight && 'dsg-input-align-right')}
+        className={cx('dsg-input', alignRight && 'dsg-input-align-right', onlyActive && 'dsg-input-active')}
         placeholder={active ? placeholder : undefined}
         // Important to prevent any undesired "tabbing"
         tabIndex={-1}
