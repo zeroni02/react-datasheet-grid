@@ -1466,6 +1466,8 @@ export const DataSheetGrid = React.memo(
           ) {
             if (!editing && !isCellDisabled(activeCell)) {
               lastEditingCellRef.current = activeCell
+               // TODO dataを空にする
+              deleteSelection();
               setSelectionCell(null)
               setEditing(true)
               scrollTo(activeCell)
