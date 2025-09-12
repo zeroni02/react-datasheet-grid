@@ -1,6 +1,6 @@
 {
   "name": "@zeroni02/react-datasheet-grid",
-  "version": "4.11.5-zeroni.1.0001",
+  "version": "4.11.5-zeroni.1.1.1",
   "description": "An Excel-like React component to create beautiful spreadsheets.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
