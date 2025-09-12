@@ -1464,10 +1464,12 @@ export const DataSheetGrid = React.memo(
             !event.metaKey &&
             !event.altKey
           ) {
+            // キー入力時
+            // 編集モードでないとき
             if (!editing && !isCellDisabled(activeCell)) {
               lastEditingCellRef.current = activeCell
-               // TODO dataを空にする
-              deleteSelection();
+              // キーを入力時に、元あったデータを空にする必要がある
+              deleteSelection(false);
               setSelectionCell(null)
               setEditing(true)
               scrollTo(activeCell)
