@@ -3,7 +3,10 @@ import {
   checkboxColumn,
   Column,
   DataSheetGrid,
+  dateColumn,
+  floatColumn,
   keyColumn,
+  nestedkeyColumn,
   textColumn,
 } from '../../src'
 import '../../src/style.css'
@@ -12,12 +15,17 @@ type Row = {
   active: boolean
   firstName: string | null
   lastName: string | null
+  date: Date | null
+  num: number | null
+  obj : {
+    nested: string
+  }
 }
 
 function App() {
   const [data, setData] = useState<Row[]>([
-    { active: true, firstName: 'Elon', lastName: 'Musk' },
-    { active: false, firstName: 'Jeff', lastName: 'Bezos' },
+    { active: true, firstName: 'Elon', lastName: 'Musk', date: null, num: 1234.56, obj: { nested: 'value1' } },
+    { active: false, firstName: 'Jeff', lastName: 'Bezos', date: null, num: -9876.54, obj: { nested: 'value2' } },
   ])
 
   const columns: Column<Row>[] = [
@@ -35,6 +43,21 @@ function App() {
       title: 'Last name',
       grow: 2,
     },
+    {
+      ...nestedkeyColumn<Row, 'obj.nested'>( 'obj.nested', textColumn),
+      title: 'Nested Key',
+      grow: 1,
+    },
+    {
+      ...keyColumn<Row, 'date'>('date', dateColumn),
+      title: 'Date',
+      grow: 1,
+    },
+    {
+      ...keyColumn<Row, 'num'>('num', floatColumn),
+      title: 'Num',
+      grow: 1,
+    }
   ]
 
   return (
@@ -52,3 +75,4 @@ function App() {
 }
 
 export default App
+
