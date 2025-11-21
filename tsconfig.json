@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "target": "ES2015",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "ESNext",
     "allowJs": false,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,

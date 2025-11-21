@@ -128,7 +128,7 @@ export const nestedkeyColumn = <
   PasteValue = string
 >(
   key: K,
-  column: Partial<Column<T[K], any, PasteValue>>
+  column: Partial<Column<any, any, PasteValue>>
 ): Partial<Column<T, ColumnData, PasteValue>> => ({
   id: key as string,
   ...column,
